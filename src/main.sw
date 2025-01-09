@@ -525,6 +525,7 @@ impl SRC3 for Contract {
 
         storage.total_supply.write(storage.total_supply.read() + amount);
         mint_to(recipient, DEFAULT_SUB_ID, amount);
+        release_reentrancy_guard();
     }
 
     #[storage(read, write)]
@@ -536,6 +537,7 @@ impl SRC3 for Contract {
 
         storage.total_supply.write(storage.total_supply.read() - amount);
         burn(DEFAULT_SUB_ID, amount);
+        release_reentrancy_guard();
     }
 }
 
