@@ -1,0 +1,14 @@
+[package]
+name = "koby_staking_contract-tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dev-dependencies]
+fuels = { version = "0.66.10", features = ["fuel-core-lib"] }
+tokio = { version = "1.12", features = ["rt", "macros", "time"] }
+
+[[test]]
+harness = true
+name = "integration_tests"
+path = "tests/harness.rs"
