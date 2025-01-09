@@ -243,8 +243,9 @@ impl NFTStaking for Contract {
         let current_count = storage.staker_nfts.get(sender).try_read().unwrap_or(0);
         storage.staker_nfts.insert(sender, current_count + 1);
         storage.total_staked.write(storage.total_staked.read() + 1);
-        release_reentrancy_guard();
+        
         emit_staked_event(nft_id, sender);
+        release_reentrancy_guard();
     }
 
     #[storage(read, write), payable]
@@ -372,6 +373,7 @@ impl NFTStaking for Contract {
         require_owner();
         require(new_rate <= MAX_REWARD_RATE, StakingError::RewardRateTooHigh);
         storage.reward_rate.write(new_rate);
+        release_reentrancy_guard();
     }
 
     #[storage(read, write)]
@@ -395,6 +397,7 @@ impl NFTStaking for Contract {
             timestamp: timestamp(),
             initiator: msg_sender().unwrap(),
         });
+        release_reentrancy_guard();
     }
 
     #[storage(read, write)]
@@ -402,6 +405,7 @@ impl NFTStaking for Contract {
         reentrancy_guard();
         require_owner();
         storage.paused.write(true);
+        release_reentrancy_guard();
     }
 
     #[storage(read, write)]
@@ -409,6 +413,7 @@ impl NFTStaking for Contract {
         reentrancy_guard();
         require_owner();
         storage.paused.write(false);
+        release_reentrancy_guard();
     }
 
     #[storage(read, write)]
@@ -416,6 +421,7 @@ impl NFTStaking for Contract {
         reentrancy_guard();
         require(storage.owner.read() == State::Uninitialized, StakingError::AlreadyInitialized);
         storage.owner.write(State::Initialized(owner));
+        release_reentrancy_guard();
     }
 
     #[storage(read)]
@@ -441,6 +447,7 @@ impl NFTStaking for Contract {
         reentrancy_guard();
         require_owner();
         storage.pending_admin_changes.insert(change_type, (timestamp(), new_value));
+        release_reentrancy_guard();
     }
 
     #[storage(read, write)]
@@ -458,6 +465,7 @@ impl NFTStaking for Contract {
         }
 
         let _ = storage.pending_admin_changes.remove(change_type);
+        release_reentrancy_guard();
     }
 }
 
@@ -559,6 +567,7 @@ impl Ownable for Contract {
             previous_owner: msg_sender().unwrap(),
             new_owner,
         });
+        release_reentrancy_guard();
     }
 }
 
