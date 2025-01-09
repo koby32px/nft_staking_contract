@@ -10,9 +10,15 @@ source = "path+from-root-77BE31D0FE6A1BE6"
 name = "koby_staking_contract"
 source = "member"
 dependencies = [
-    "standards",
+    "standards git+https://github.com/FuelLabs/sway-standards?tag=v0.6.2#ba788b2389d0adad0167cf3bfa559da00502f984",
     "std git+https://github.com/FuelLabs/sway?tag=v0.66.5#94a066652468b4afa3bd396dacef482ed590976b",
+    "sway_libs",
 ]
+
+[[package]]
+name = "standards"
+source = "git+https://github.com/FuelLabs/sway-standards?tag=v0.6.0#65e09f95ea8b9476b171a66c8a47108f352fa32c"
+dependencies = ["std git+https://github.com/fuellabs/sway?tag=v0.66.5#94a066652468b4afa3bd396dacef482ed590976b"]
 
 [[package]]
 name = "standards"
@@ -28,3 +34,11 @@ dependencies = ["core path+from-root-77BE31D0FE6A1BE6"]
 name = "std"
 source = "git+https://github.com/fuellabs/sway?tag=v0.66.5#94a066652468b4afa3bd396dacef482ed590976b"
 dependencies = ["core path+from-root-6A8836696D55BC6E"]
+
+[[package]]
+name = "sway_libs"
+source = "git+https://github.com/FuelLabs/sway-libs?tag=v0.24.0#e19f96f85ae12426d20adc176b70aa38fd9a2a5b"
+dependencies = [
+    "standards git+https://github.com/FuelLabs/sway-standards?tag=v0.6.0#65e09f95ea8b9476b171a66c8a47108f352fa32c",
+    "std git+https://github.com/fuellabs/sway?tag=v0.66.5#94a066652468b4afa3bd396dacef482ed590976b",
+]
