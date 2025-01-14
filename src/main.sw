@@ -208,6 +208,9 @@ abi NFTStaking {
     
     #[storage(read, write)]
     fn set_reward_rate(new_rate: u64);
+
+    #[storage(read, write)]
+    fn initialize_mint_capabilities();
 }
 
 ////////////////////////////////////////
@@ -450,6 +453,13 @@ impl NFTStaking for Contract {
         });
         release_reentrancy_guard();
     }
+
+    #[storage(read, write)]
+    fn initialize_mint_capabilities() {
+        require_owner();
+        // Initialize any necessary mint-related storage
+        // This will depend on your specific requirements
+    }
 }
 
 ////////////////////////////////////////
@@ -503,7 +513,13 @@ impl SRC3 for Contract {
     #[storage(read, write)]
     fn mint(recipient: Identity, sub_id: Option<SubId>, amount: u64) {
         require_owner();
-        mint_to(recipient, sub_id.unwrap_or(DEFAULT_SUB_ID), amount);
+        let sub_id = sub_id.unwrap_or(DEFAULT_SUB_ID);
+        
+        // Add any necessary checks before minting
+        require(!storage.paused.read(), StakingError::ContractPaused);
+        
+        // Perform the mint operation
+        mint_to(recipient, sub_id, amount);
     }
 
     #[storage(read, write), payable]
