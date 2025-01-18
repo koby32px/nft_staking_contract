@@ -7,8 +7,4 @@ name = "koby_staking_contract"
 [dependencies]
 std = { git = "https://github.com/FuelLabs/sway", tag = "v0.66.5" }
 standards = { git = "https://github.com/FuelLabs/sway-standards", tag = "v0.6.2" }
-sway_libs = { git = "https://github.com/FuelLabs/sway-libs", tag = "v0.24.0" }
-
-[test]
-entry = "tests/harness.sw"
-path = "tests/harness.sw" 
+sway_libs = { git = "https://github.com/FuelLabs/sway-libs", tag = "v0.24.1" }
